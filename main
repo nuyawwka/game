@@ -1,0 +1,72 @@
+def game(grid):
+    end   = (len(grid) - 1, len(grid[0]) - 1)
+    guard = {'<':(0, -1), '>':(0, 1), 'v':(1, 0), '^':(-1, 0)}
+    d     = {}
+    
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] != 'X':
+                d[(i, j)] = grid[i][j]
+                
+            if grid[i][j] == 'A':
+                beg = (i, j)
+                if beg == end:
+                    return True
+                    
+    for i, j in list(d):
+        if (i, j) in d:
+            if d[(i, j)] in guard:
+                x, y = guard[d[(i, j)]]
+                
+                while True:
+                    if (i, j) in (beg, end):
+                        return False
+
+                    i += x
+                    j += y
+                    
+                    if (i, j) not in d or d[(i, j)] != '.':
+                        break
+                        
+                    d.pop((i, j))
+                    
+    result = [False]
+    trav(d, beg, end, set(), result)
+    return result[0]
+    
+#-------------------------------------------------------------------------------------
+
+def trav(d, pos, end, visited, result):
+    if pos == end:
+        result[0] = True
+    else:    
+        i, j = pos
+
+        for x, y in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            x += i
+            y += j
+
+            if (x, y) in d and (x, y) not in visited:
+                visited.add((x, y))
+                trav(d, (x, y), end, visited, result)
+    
+#-------------------------------------------------------------------------------------
+
+def main():
+    grid = [['A', '.', '.', '>', '.'],
+            ['.', '.', '<', '.', '.'],
+            ['.', '.', '.', '.', '^'],
+            ['.', 'X', 'X', '.', '<'],
+            ['.', '.', '.', 'X', '.'],
+            ['.', '<', 'X', 'X', '.'],
+           ]
+    
+    if game(grid):
+        print('YES')
+    else:
+        print('NO')
+    
+#-------------------------------------------------------------------------------------
+
+main()
+                        
