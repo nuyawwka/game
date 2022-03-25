@@ -10,24 +10,22 @@ def game(grid):
     
     for i in range(len(grid)):
         for j in range(len(grid[0])):
-            if grid[i][j] != 'X':
-                d[(i, j)] = grid[i][j]
+            d[(i, j)] = grid[i][j]
                 
             if grid[i][j] == 'A':
                 beg = (i, j)
                 
-    for i, j in list(d):
-        if (i, j) in d and d[(i, j)] in guard:
+    for i, j in d:
+        if d[(i, j)] in guard:
             x, y = guard[d[(i, j)]]
 
             while True:
+                d[(i, j)] = 'X'
                 i += x
                 j += y
 
-                if (i, j) not in d or d[(i, j)] not in ('A', '.'):
+                if (i, j) not in d or d[(i, j)] in guard:
                     break
-
-                d.pop((i, j))
                     
     if beg not in d or end not in d:
         return []
@@ -50,7 +48,7 @@ def bfs(d, beg, end):
             x += pos[0]
             y += pos[1]
 
-            if (x, y) in d and (x, y) not in vis:
+            if d.get((x, y)) == '.' and (x, y) not in vis:
                 q.append(((x, y), path + [(x, y)]))
                 vis.add((x, y))   
              
@@ -59,18 +57,28 @@ def bfs(d, beg, end):
 #-------------------------------------------------------------------------------------
 
 def main():
-    grid = [['A', '.', '.', '>', '.'],
-            ['.', '.', '<', 'X', '.'],
-            ['.', '.', '.', '.', '^'],
-            ['.', 'X', 'X', '>', '.'],
-            ['.', '.', '.', '<', '.'],
-            ['.', '<', 'X', 'X', '.'],
-           ]
-    
-    path = game(grid)
+    grid1 = [['X', '.', '.', '.', '.', '.', '>'],
+             ['.', '.', 'v', '.', '.', 'X', '.'],
+             ['.', '>', '.', '.', 'X', '.', '.'],
+             ['A', '.', '.', '.', '.', '.', '.'],
+            ]
+
+    grid2 = [['.', '.', '.', 'X', 'v'],
+             ['A', 'X', '.', '.', '^'],
+             ['.', 'X', 'X', '.', '.'],
+            ]
+
+    grid3 = [['.', '.', '.'],
+             ['>', '.', 'A'],
+            ]
+
+    grid4 = [['A', '.', 'v'],
+             ['.', '.', '.'],
+            ]
+        
+    path = game(grid2)
     print(path)
     
 #-------------------------------------------------------------------------------------
 
 main()
-                        
