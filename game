@@ -22,7 +22,7 @@ def game(grid):
                 while True:
                     if (i, j) in (beg, end):
                         return False
-                        
+
                     i += x
                     j += y
                     
@@ -31,25 +31,30 @@ def game(grid):
                         
                     d.pop((i, j))
                     
-    result = [False]
-    trav(d, beg, end, set(), result)
-    return result[0]
+    return bfs(d, beg, end)
     
 #-------------------------------------------------------------------------------------
 
-def trav(d, pos, end, visited, result):
-    if pos == end:
-        result[0] = True
-    else:    
-        i, j = pos
+def bfs(d, beg, end):
+    q   = [beg]
+    vis = set()
+    
+    while q:
+        i, j = q.pop(0)
+        
+        if (i, j) == end:
+            return True
+        
+        vis.add((i, j))   
 
         for x, y in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
             x += i
             y += j
 
-            if (x, y) in d and (x, y) not in visited:
-                visited.add((x, y))
-                trav(d, (x, y), end, visited, result)
+            if (x, y) in d and (x, y) not in vis:
+                q.append((x, y))
+                
+    return False
     
 #-------------------------------------------------------------------------------------
 
@@ -57,8 +62,8 @@ def main():
     grid = [['A', '.', '.', '>', '.'],
             ['.', '.', '<', '.', '.'],
             ['.', '.', '.', '.', '^'],
-            ['.', 'X', 'X', '.', '<'],
-            ['.', '.', '.', 'X', '.'],
+            ['.', 'X', 'X', '.', '.'],
+            ['.', '.', '.', '>', '.'],
             ['.', '<', 'X', 'X', '.'],
            ]
     
