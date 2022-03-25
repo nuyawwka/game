@@ -36,7 +36,7 @@ def game(grid):
 
 def bfs(d, beg, end):
     q   = [beg]
-    vis = set()
+    vis = {beg}
     
     while q:
         i, j = q.pop(0)
@@ -44,15 +44,14 @@ def bfs(d, beg, end):
         if (i, j) == end:
             return True
         
-        vis.add((i, j))   
-
         for x, y in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
             x += i
             y += j
 
             if (x, y) in d and (x, y) not in vis:
                 q.append((x, y))
-                
+                vis.add((x, y))   
+             
     return False
     
 #-------------------------------------------------------------------------------------
@@ -74,3 +73,4 @@ def main():
 #-------------------------------------------------------------------------------------
 
 main()
+                        
