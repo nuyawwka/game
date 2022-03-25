@@ -10,8 +10,9 @@ def game(grid):
                 
             if grid[i][j] == 'A':
                 beg = (i, j)
-                if beg == end:
-                    return True
+                
+    if beg == end:
+        return True
                     
     for i, j in list(d):
         if (i, j) in d:
@@ -21,7 +22,7 @@ def game(grid):
                 while True:
                     if (i, j) in (beg, end):
                         return False
-
+                        
                     i += x
                     j += y
                     
