@@ -15,21 +15,20 @@ def game(grid):
         return True
                     
     for i, j in list(d):
-        if (i, j) in d:
-            if d[(i, j)] in guard:
-                x, y = guard[d[(i, j)]]
-                
-                while True:
-                    if (i, j) in (beg, end):
-                        return False
+        if (i, j) in d and d[(i, j)] in guard:
+            x, y = guard[d[(i, j)]]
 
-                    i += x
-                    j += y
-                    
-                    if (i, j) not in d or d[(i, j)] != '.':
-                        break
-                        
-                    d.pop((i, j))
+            while True:
+                if (i, j) in (beg, end):
+                    return False
+
+                i += x
+                j += y
+
+                if (i, j) not in d or d[(i, j)] != '.':
+                    break
+
+                d.pop((i, j))
                     
     return bfs(d, beg, end)
     
@@ -63,7 +62,7 @@ def main():
             ['.', '.', '<', '.', '.'],
             ['.', '.', '.', '.', '^'],
             ['.', 'X', 'X', '.', '.'],
-            ['.', '.', '.', '>', '.'],
+            ['.', '.', '.', '^', '.'],
             ['.', '<', 'X', 'X', '.'],
            ]
     
@@ -75,4 +74,3 @@ def main():
 #-------------------------------------------------------------------------------------
 
 main()
-                        
