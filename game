@@ -11,64 +11,59 @@ def game(grid):
             if grid[i][j] == 'A':
                 beg = (i, j)
                 
-    if beg == end:
-        return True
-                    
     for i, j in list(d):
         if (i, j) in d and d[(i, j)] in guard:
             x, y = guard[d[(i, j)]]
 
             while True:
-                if (i, j) in (beg, end):
-                    return False
-
                 i += x
                 j += y
 
-                if (i, j) not in d or d[(i, j)] != '.':
+                if (i, j) not in d or d[(i, j)] not in ('A', '.'):
                     break
 
                 d.pop((i, j))
                     
-    return bfs(d, beg, end)
+    if beg not in d or end not in d:
+        return []
+    else:
+        return bfs(d, beg, end)
     
 #-------------------------------------------------------------------------------------
 
 def bfs(d, beg, end):
-    q   = [beg]
+    q   = [(beg, [beg])]
     vis = {beg}
     
     while q:
-        i, j = q.pop(0)
+        pos, path = q.pop(0)
         
-        if (i, j) == end:
-            return True
+        if pos == end:
+            return path
         
         for x, y in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            x += i
-            y += j
+            x += pos[0]
+            y += pos[1]
 
             if (x, y) in d and (x, y) not in vis:
-                q.append((x, y))
+                q.append(((x, y), path + [(x, y)]))
                 vis.add((x, y))   
              
-    return False
+    return []
     
 #-------------------------------------------------------------------------------------
 
 def main():
     grid = [['A', '.', '.', '>', '.'],
-            ['.', '.', '<', '.', '.'],
+            ['.', '.', '<', 'X', '.'],
             ['.', '.', '.', '.', '^'],
-            ['.', 'X', 'X', '.', '.'],
-            ['.', '.', '.', '^', '.'],
+            ['.', 'X', 'X', '>', '.'],
+            ['.', '.', '.', '<', '.'],
             ['.', '<', 'X', 'X', '.'],
            ]
     
-    if game(grid):
-        print('YES')
-    else:
-        print('NO')
+    path = game(grid)
+    print(path)
     
 #-------------------------------------------------------------------------------------
 
