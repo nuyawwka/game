@@ -23,15 +23,15 @@ def game(grid):
                 i += x
                 j += y
 
+                if (i, j) in (beg, end):
+                    return []
+                
                 if (i, j) not in d or d[(i, j)] not in ('.', 'Y'):
                     break
                     
                 d[(i, j)] = 'Y'
-                    
-    if beg not in d or end not in d:
-        return []
-    else:
-        return bfs(d, beg, end)
+
+    return bfs(d, beg, end)
     
 #-------------------------------------------------------------------------------------
 
