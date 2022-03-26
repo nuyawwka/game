@@ -20,12 +20,13 @@ def game(grid):
             x, y = guard[d[(i, j)]]
 
             while True:
-                d[(i, j)] = 'X'
                 i += x
                 j += y
 
-                if (i, j) not in d or d[(i, j)] in guard:
+                if (i, j) not in d or d[(i, j)] not in ('.', 'Y'):
                     break
+                    
+                d[(i, j)] = 'Y'
                     
     if beg not in d or end not in d:
         return []
